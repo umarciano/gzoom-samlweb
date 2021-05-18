@@ -10,42 +10,42 @@
 <!DOCTYPE html>
 <html>
 <script>
-function loginOnRCA(user, hrefUrl) {
-	xhr = new XMLHttpRequest();
-	xhr.open('POST', '/rca/api/getToken');
-	xhr.setRequestHeader('Content-Type', 'application/json');
-	xhr.onload = function() {
-		if (xhr.status === 200 ) {
-                        var userInfo = JSON.parse(xhr.responseText);
-						localStorage.setItem('rca-auth', userInfo.token);
-                        
-		}
-		else if (xhr.status !== 200) {
-                       alert('Utente non autorizzato');
-                      
-		}
-		window.location.href = hrefUrl;
+	function loginOnRCA(user, hrefUrl) {
+		xhr = new XMLHttpRequest();
+		xhr.open('POST', 'http://localhost:8081/rest/api/getToken');
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+		xhr.setRequestHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+		xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
+		xhr.setRequestHeader("Access-Control-Max-Age", "1728000");;
+		xhr.onload = function() {
+			if (xhr.status === 200 ) {
+				var userInfo = JSON.parse(xhr.responseText);
+				//alert(userInfo.token.toString());
+				localStorage.setItem('rca-auth', userInfo.token);
+			}
+			else if (xhr.status !== 200) {
+				alert('Utente non autorizzato');
+			}
+			window.location.href = hrefUrl;
+		};
+		var bodyStr = JSON.stringify({
+			uid: user,
+			requestor: 'liferay'
+		});
+		xhr.send(bodyStr);
 	};
-	var bodyStr = JSON.stringify({
-		uid: user,
-		requestor: 'liferay'
-	});
-	xhr.send(bodyStr);
-};
 </script>
-
 <head>
 	 <meta charset="utf-8">
 	 <meta http-equiv="X-UA-Compatible" content="IE=edge">
      <meta name="viewport" content="width=device-width, initial-scale=1">
 	 <title>IPC SAML Sample App</title>
 	 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-
      <%
-		 
 			String nameId = (String) session.getAttribute("upn");
             String returnUrl = (String) session.getAttribute("rcaReturnUrl");
-			%>
+	 %>
 </head>
 <body onload="loginOnRCA('<%=nameId%>', '<%=returnUrl%>');"></body>
 </html>

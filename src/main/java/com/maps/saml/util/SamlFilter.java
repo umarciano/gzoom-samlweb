@@ -35,14 +35,14 @@ public class SamlFilter implements Filter{
 		HttpServletRequest  req = (HttpServletRequest)arg0;
 		HttpServletResponse resp = (HttpServletResponse)arg1;
 		try  {
-			LOGGER.info("HTTP REQUEST - INCOMING REQUEST: "+   req.getServletPath());
+
+			LOGGER.info("HTTP REQUEST - INCOMING REQUEST: "+   getRequestUrl(req));
 			LOGGER.info("HTTP REQUEST - METHOD: "+   req.getMethod());
 		 	if (req.getServletPath()!=null) {
-				//if (req.getServletPath().indexOf("rcaDoLogin")>0) {
-				//	manageSamlRequest(req, resp,"rca.base.url", "rca");
-				//}
-		 		//else if
-				if(req.getServletPath().indexOf("gzoomDoLogin")>0) {
+				if (req.getServletPath().indexOf("gzoom2DoLogin")>0) {
+					manageSamlRequest(req, resp,"gzoom2.base.url", "rca");
+				}
+		 		else if(req.getServletPath().indexOf("gzoomDoLogin")>0) {
 					manageSamlRequest(req, resp,"gzoom.base.url", "soa");
 				}
 				else if (req.getServletPath().indexOf("acs.jsp")>0) {
@@ -127,5 +127,28 @@ public class SamlFilter implements Filter{
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
 		LOGGER.info("INIT SAML Filter");
+	}
+
+
+	private String getRequestUrl(final HttpServletRequest req){
+		final String scheme = req.getScheme();
+		final int port = req.getServerPort();
+		final StringBuilder url = new StringBuilder(256);
+		url.append(scheme);
+		url.append("://");
+		url.append(req.getServerName());
+		if(!(("http".equals(scheme) && (port == 0 || port == 80))
+				|| ("https".equals(scheme) && port == 443))){
+			url.append(':');
+			url.append(port);
+		}
+		url.append(req.getRequestURI());
+		final String qs = req.getQueryString();
+		if(qs != null){
+			url.append('?');
+			url.append(qs);
+		}
+		final String result = url.toString();
+		return result;
 	}
 }
