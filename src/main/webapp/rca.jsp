@@ -22,7 +22,7 @@
 			if (xhr.status === 200 ) {
 				var userInfo = JSON.parse(xhr.responseText);
 				//alert(userInfo.token.toString());
-				localStorage.setItem('rca-auth', userInfo.token);
+				localStorage.setItem('auth-token', userInfo.token);
 			}
 			else if (xhr.status !== 200) {
 				alert('Utente non autorizzato');
