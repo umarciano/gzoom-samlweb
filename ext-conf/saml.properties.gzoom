@@ -1,0 +1,203 @@
+#  If 'strict' is True, then the Java Toolkit will reject unsigned
+#  or unencrypted messages if it expects them signed or encrypted
+#  Also will reject the messages if not strictly follow the SAML
+onelogin.saml2.strict =  true
+
+# Enable debug mode (to print errors)
+onelogin.saml2.debug =  false
+
+
+#  Service Provider Data that we are deploying
+#
+
+#  Identifier of the SP entity  (must be a URI)
+#onelogin.saml2.sp.entityid = http://localhost:8080/java_saml_tookit_jspsample_war/metadata.jsp
+#onelogin.saml2.sp.entityid = https://localhost:8443/gzoom-saml-web/metadata.jsp
+onelogin.saml2.sp.entityid = http://localhost:663/gzoom-saml-web/metadata.jsp
+
+# Specifies info about where and how the <AuthnResponse> message MUST be
+#  returned to the requester, in this case our SP.
+# URL Location where the <Response> from the IdP will be returned
+
+#onelogin.saml2.sp.assertion_consumer_service.url = http://localhost:8080/java_saml_tookit_jspsample_war/acs.jsp
+#onelogin.saml2.sp.assertion_consumer_service.url = https://localhost:8443/gzoom-saml-web/acs.jsp
+onelogin.saml2.sp.assertion_consumer_service.url = http://localhost:663/gzoom-saml-web/acs.jsp
+
+
+# SAML protocol binding to be used when returning the <Response>
+# message.  Onelogin Toolkit supports for this endpoint the
+# HTTP-POST binding only
+onelogin.saml2.sp.assertion_consumer_service.binding = urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST
+
+# Specifies info about where and how the <Logout Response> message MUST be
+# returned to the requester, in this case our SP.
+#onelogin.saml2.sp.single_logout_service.url = http://localhost:8000/java_saml_tookit_jspsample_war/sls.jsp
+#onelogin.saml2.sp.single_logout_service.url = https://localhost:8443/gzoom-saml-web/sls.jsp
+onelogin.saml2.sp.single_logout_service.url = http://localhost:663/gzoom-saml-web/sls.jsp
+
+# SAML protocol binding to be used when returning the <LogoutResponse> or sending the <LogoutRequest>
+# message.  Onelogin Toolkit supports for this endpoint the
+# HTTP-Redirect binding only
+onelogin.saml2.sp.single_logout_service.binding = urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect
+
+# Specifies constraints on the name identifier to be used to
+# represent the requested subject.
+# Take a look on lib/Saml2/Constants.php to see the NameIdFormat supported
+onelogin.saml2.sp.nameidformat = urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress
+
+# Usually x509cert and privateKey of the SP are provided by files placed at
+# the certs folder. But we can also provide them with the following parameters
+
+onelogin.saml2.sp.x509cert =
+
+# Requires Format PKCS#8   BEGIN PRIVATE KEY	     
+# If you have     PKCS#1   BEGIN RSA PRIVATE KEY  convert it by   openssl pkcs8 -topk8 -inform pem -nocrypt -in sp.rsa_key -outform pem -out sp.pem
+onelogin.saml2.sp.privatekey =
+
+# Identity Provider Data that we want connect with our SP
+#
+
+# Identifier of the IdP entity  (must be a URI)
+#onelogin.saml2.idp.entityid =https://app.onelogin.com/saml/metadata/bd889a92-977f-4b17-9ac5-8fef78581865
+onelogin.saml2.idp.entityid =https://sts.windows.net/d703ad8a-8776-4bc2-a06e-df4295b95c25/
+
+
+# SSO endpoint info of the IdP. (Authentication Request protocol)
+# URL Target of the IdP where the SP will send the Authentication Request Message
+#onelogin.saml2.idp.single_sign_on_service.url =https://maps-dev.onelogin.com/trust/saml2/http-post/sso/bd889a92-977f-4b17-9ac5-8fef78581865
+onelogin.saml2.idp.single_sign_on_service.url =https://login.microsoftonline.com/d703ad8a-8776-4bc2-a06e-df4295b95c25/saml2
+
+
+# SAML protocol binding to be used when returning the <Response>
+# message.  Onelogin Toolkit supports for this endpoint the
+# HTTP-Redirect binding only
+onelogin.saml2.idp.single_sign_on_service.binding = urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect
+
+# SLO endpoint info of the IdP.
+# URL Location of the IdP where the SP will send the SLO Request
+#onelogin.saml2.idp.single_logout_service.url =https://maps-dev.onelogin.com/trust/saml2/http-redirect/slo/1412586
+#onelogin.saml2.idp.single_logout_service.url =https://login.microsoftonline.com/d703ad8a-8776-4bc2-a06e-df4295b95c25/saml2
+
+#onelogin.saml2.idp.single_logout_service.url = https://sts.pizzarotti.it/adfs/ls/
+onelogin.saml2.idp.single_logout_service.url = https://login.microsoftonline.com/d703ad8a-8776-4bc2-a06e-df4295b95c25/saml2
+
+
+# Optional SLO Response endpoint info of the IdP.
+# URL Location of the IdP where the SP will send the SLO Response. If left blank, same URL as onelogin.saml2.idp.single_logout_service.url will be used.
+# Some IdPs use a separate URL for sending a logout request and response, use this property to set the separate response url
+#onelogin.saml2.idp.single_logout_service.response.url = https://sts.pizzarotti.it/adfs/ls/
+onelogin.saml2.idp.single_logout_service.response.url = https://login.microsoftonline.com/d703ad8a-8776-4bc2-a06e-df4295b95c25/saml2
+
+# SAML protocol binding to be used when returning the <Response>
+# message.  Onelogin Toolkit supports for this endpoint the
+# HTTP-Redirect binding only
+onelogin.saml2.idp.single_logout_service.binding = urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect
+
+# Public x509 certificate of the IdP
+#onelogin.saml2.idp.x509cert =-----BEGIN CERTIFICATE-----MIID0jCCArqgAwIBAgIUYw6897OBR4eh4096nhQiz4yzJkEwDQYJKoZIhvcNAQEFBQAwQjENMAsGA1UECgwEbWFwczEVMBMGA1UECwwMT25lTG9naW4gSWRQMRowGAYDVQQDDBFPbmVMb2dpbiBBY2NvdW50IDAeFw0yMTA0MDcxMDIwMzRaFw0yNjA0MDcxMDIwMzRaMEIxDTALBgNVBAoMBG1hcHMxFTATBgNVBAsMDE9uZUxvZ2luIElkUDEaMBgGA1UEAwwRT25lTG9naW4gQWNjb3VudCAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC/aVglKLGSsxoMg2GX3G372v2xIAeflVPUJPUkYWXd6TGLJ/0+m/kLYvRVj5fs5BsnmEGuE17gwKuErO36dYxMMZxc6YU3u75kmeJh34rmZMNtDfBVcbkU4ruZEyFkPrWzUhEpb6ZMUdzn6hIkvNFP4UwIOxdz4h6NXzbx7XtqqzgSyUl4faVoLS4lBbo0JZkJMnst0JyAC8ze3FKcXr9Xodhs1jmOz40eQ3+rUx+uZeLZZQr+3NAnyWXDYZi0sr3DD8ExM8eskgp+hoDA6kiut3P32a/LoCdVU3gBC5Cw1eM0JEe3uMf3qjXKDkqBMm+MjTauPSR+MRBd733ZlB75AgMBAAGjgb8wgbwwDAYDVR0TAQH/BAIwADAdBgNVHQ4EFgQU5Yrl7q6+YpFGTga4c9JJ8IPM3u0wfQYDVR0jBHYwdIAU5Yrl7q6+YpFGTga4c9JJ8IPM3u2hRqREMEIxDTALBgNVBAoMBG1hcHMxFTATBgNVBAsMDE9uZUxvZ2luIElkUDEaMBgGA1UEAwwRT25lTG9naW4gQWNjb3VudCCCFGMOvPezgUeHoeNPep4UIs+MsyZBMA4GA1UdDwEB/wQEAwIHgDANBgkqhkiG9w0BAQUFAAOCAQEAGp7UsHR0qXdl8kDJKEeR1x7TLW8dYqHJ+PccFL7leXjjo1HvqwjTeJkNglahn09zAjRH6uNDHHDAYUFdGU51G1IPdnPZ5qfrhnVyCdy/GM/5a7qNaVGzcjgx0QiSvrPwq/pqqZ2+gWbqHfsi9f3LSO+UlF8/rLQgmDyxYl4nyQOmV9r4+g6mxEsbYQnW9TwyrErqI3tJymzecQR4Mvr5onxWwfXVYeqhdGf4ZWzqA/gxubGPfmPEorVq0AR2exe0O9F9cqGgUt7q12ePAJYtSllVGBhUdccK12Nz7o/nUc0odunAU4zJeoBfF5LuevYq7INhkaBCETTpimOphsc7nA==-----END CERTIFICATE-----
+onelogin.saml2.idp.x509cert =-----BEGIN CERTIFICATE-----MIIC8DCCAdigAwIBAgIQGCsCxquAtYpElm1dpniuVzANBgkqhkiG9w0BAQsFADA0MTIwMAYDVQQDEylNaWNyb3NvZnQgQXp1cmUgRmVkZXJhdGVkIFNTTyBDZXJ0aWZpY2F0ZTAeFw0yMTA0MDgxNTI5NTFaFw0yNDA0MDgxNTI5NDZaMDQxMjAwBgNVBAMTKU1pY3Jvc29mdCBBenVyZSBGZWRlcmF0ZWQgU1NPIENlcnRpZmljYXRlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsOULYkV2Drno1jqx8eabSOxL20W9UIQBqAGvTRYaqCGw/c5DYMQW5GO0WtbsHvb4w6fF540+5DGIXJHo2kNTKZHw4xrFxt8k3Iv8L+lu5Hia9Gl8Wmxe9kYD/Q4nxDKeidFmHjHW/KHB1fk9GRH0o0SfJ36z/UF92Q7iGgeLHwymfShXHbn6RKqrpIAptZZDlU9UhQRFruCgyY9fy9PTIdMSPz09zR3SuFKdPhAPlD8PziVe2nyep1gtAdfXXivR5Uz1vSIvIoIgcOaocrhY91Tjo7zILit5iI40tJwk5c8vBorB7a91BOux11Ry5VqfQ1VZgs2uq5vLtFbwk9/YSQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAICyRsiXAZ40IwZ2jgbqrdKlZG6wzWxmL3zw2IhcO5i2Q6qSbz1/jlrjWremFhtmRzXyHJSPhnUpjfcIFpTFCl217WSFbhiy9KM1VWE7ORZlzsuMCfJEjxsk4SJ6jw+Aa+VmkEIisnGmfQ9ReABlfWJ1jkL9wfNp+Rl60v6U07XRtQ+odR0D6hGVpocitDjrZe/d8QHyTZcvzWWUNRg/BWF1TnVQ08Efgjn5DBVZ6gzudPA3AolFXv7arpM6+hl0vxGpI/0xgzisMJQO4DEpHzcDKELKyUzjh1bbX0YgZa8F2b9p/mbftsf+ULje7H0v14B6juS5v8EFKAuEX9rRBg-----END CERTIFICATE-----
+
+
+
+
+# Instead of use the whole x509cert you can use a fingerprint
+# (openssl x509 -noout -fingerprint -in "idp.crt" to generate it,
+# or add for example the -sha256 , -sha384 or -sha512 parameter)
+#
+# If a fingerprint is provided, then the certFingerprintAlgorithm is required in order to
+# let the toolkit know which Algorithm was used. Possible values: sha1, sha256, sha384 or sha512
+# 'sha1' is the default value.
+# onelogin.saml2.idp.certfingerprint = 
+# onelogin.saml2.idp.certfingerprint_algorithm = sha256
+
+
+# Security settings
+#
+
+# Indicates that the nameID of the <samlp:logoutRequest> sent by this SP
+# will be encrypted.
+onelogin.saml2.security.nameid_encrypted = false
+
+# Indicates whether the <samlp:AuthnRequest> messages sent by this SP
+# will be signed.              [The Metadata of the SP will offer this info]
+onelogin.saml2.security.authnrequest_signed = false
+
+# Indicates whether the <samlp:logoutRequest> messages sent by this SP
+# will be signed.
+onelogin.saml2.security.logoutrequest_signed = false
+
+# Indicates whether the <samlp:logoutResponse> messages sent by this SP
+# will be signed.
+onelogin.saml2.security.logoutresponse_signed = false
+
+# Indicates a requirement for the <samlp:Response>, <samlp:LogoutRequest> and
+# <samlp:LogoutResponse> elements received by this SP to be signed.
+onelogin.saml2.security.want_messages_signed = false
+
+# Indicates a requirement for the <saml:Assertion> elements received by this SP to be signed.
+onelogin.saml2.security.want_assertions_signed = false
+
+# Indicates a requirement for the Metadata of this SP to be signed.
+# Right now supported null (in order to not sign) or true (sign using SP private key) 
+onelogin.saml2.security.sign_metadata =
+
+# Indicates a requirement for the Assertions received by this SP to be encrypted
+onelogin.saml2.security.want_assertions_encrypted = false
+
+# Indicates a requirement for the NameID received by this SP to be encrypted
+onelogin.saml2.security.want_nameid_encrypted = false
+
+# Authentication context.
+# Set Empty and no AuthContext will be sent in the AuthNRequest
+# You can set multiple values (comma separated them)
+onelogin.saml2.security.requested_authncontext = urn:oasis:names:tc:SAML:2.0:ac:classes:Password
+
+# Allows the authn comparison parameter to be set, defaults to 'exact'
+onelogin.saml2.security.onelogin.saml2.security.requested_authncontextcomparison = exact
+
+# Allows duplicated names in the attribute statement
+onelogin.saml2.security.allow_duplicated_attribute_name = false
+
+# Indicates if the SP will validate all received xmls.
+# (In order to validate the xml, 'strict' and 'wantXMLValidation' must be true).
+onelogin.saml2.security.want_xml_validation = true
+
+# Algorithm that the toolkit will use on signing process. Options:
+#  'http://www.w3.org/2000/09/xmldsig#rsa-sha1'
+#  'http://www.w3.org/2000/09/xmldsig#dsa-sha1'
+#  'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256'
+#  'http://www.w3.org/2001/04/xmldsig-more#rsa-sha384'
+#  'http://www.w3.org/2001/04/xmldsig-more#rsa-sha512'
+onelogin.saml2.security.signature_algorithm = http://www.w3.org/2001/04/xmldsig-more#rsa-sha256
+
+# Algorithm that the toolkit will use on digest process. Options:
+#  'http://www.w3.org/2000/09/xmldsig#sha1'
+#  'http://www.w3.org/2001/04/xmlenc#sha256'
+#  'http://www.w3.org/2001/04/xmldsig-more#sha384'
+#  'http://www.w3.org/2001/04/xmlenc#sha512'
+onelogin.saml2.security.digest_algorithm = http://www.w3.org/2001/04/xmlenc#sha256 
+
+# Reject Signatures with deprecated algorithms (sha1)
+onelogin.saml2.security.reject_deprecated_alg = true
+
+# Organization
+onelogin.saml2.organization.name = SP Java 
+onelogin.saml2.organization.displayname = SP Java Example
+onelogin.saml2.organization.url = http://sp.example.com
+onelogin.saml2.organization.lang = 
+
+# Contacts
+onelogin.saml2.contacts.technical.given_name = Technical Guy
+onelogin.saml2.contacts.technical.email_address = technical@example.com
+onelogin.saml2.contacts.support.given_name = Support Guy
+onelogin.saml2.contacts.support.email_address = support@@example.com
+
+gzoom.base.url=http://localhost:8080
+rca.base.url=http://localhost:8080
+
+#gzoom2.base.url=http://localhost:4200
+gzoom2.base.url=http://localhost:663
+
+
+gzoom2.api.getToken.url=http://localhost:8081/rest/api/getToken
+gzoom2.api.key=mUZEPHgeMzhhtyurkmWKDNmzf2jMYwo36QTAC6yw2ftdT2Scrm
