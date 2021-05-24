@@ -10,18 +10,19 @@
 <!DOCTYPE html>
 <html>
 <script>
-	function loginOnRCA(user, hrefUrl) {
+	function loginOnGzoom2(user,hrefUrl,gzoom2ApiGetTokenUrl,gzoom2ApiKey) {
 		xhr = new XMLHttpRequest();
-		xhr.open('POST', 'http://localhost:8081/rest/api/getToken');
+		xhr.open('POST', gzoom2ApiGetTokenUrl);
 		xhr.setRequestHeader('Content-Type', 'application/json');
 		xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
 		xhr.setRequestHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
 		xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
-		xhr.setRequestHeader("Access-Control-Max-Age", "1728000");;
+		xhr.setRequestHeader("Access-Control-Max-Age", "1728000");
+		xhr.setRequestHeader("gzoom2apikey",gzoom2ApiKey);
 		xhr.onload = function() {
 			if (xhr.status === 200 ) {
 				var userInfo = JSON.parse(xhr.responseText);
-				alert('gzoom-saml-web ' + userInfo.token);
+				//alert('gzoom-saml-web ' + userInfo.token);
 				localStorage.setItem('auth-token', userInfo.token);
 			}
 			else if (xhr.status !== 200) {
@@ -31,7 +32,7 @@
 		};
 		var bodyStr = JSON.stringify({
 			uid: user,
-			requestor: 'liferay'
+			requestor: 'gzoom2'
 		});
 		xhr.send(bodyStr);
 	};
@@ -44,9 +45,11 @@
 	 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
      <%
 			String nameId = (String) session.getAttribute("upn");
-            String returnUrl = (String) session.getAttribute("rcaReturnUrl");
+            String returnUrl = (String) session.getAttribute("gzoom2ReturnUrl");
+            String gzoom2ApiGetTokenUrl = (String) session.getAttribute("gzoom2ApiGetTokenUrl");
+		 	String gzoom2ApiKey = (String) session.getAttribute("gzoom2ApiKey");
 	 %>
 </head>
-<body onload="loginOnRCA('<%=nameId%>', '<%=returnUrl%>');"></body>
+<body onload="loginOnGzoom2('<%=nameId%>', '<%=returnUrl%>', '<%=gzoom2ApiGetTokenUrl%>','<%=gzoom2ApiKey%>');"></body>
 </html>
 

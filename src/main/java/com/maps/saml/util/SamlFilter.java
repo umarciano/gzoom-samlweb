@@ -40,7 +40,7 @@ public class SamlFilter implements Filter{
 			LOGGER.info("HTTP REQUEST - METHOD: "+   req.getMethod());
 		 	if (req.getServletPath()!=null) {
 				if (req.getServletPath().indexOf("gzoom2DoLogin")>0) {
-					manageSamlRequest(req, resp,"gzoom2.base.url", "rca");
+					manageSamlRequest(req, resp,"gzoom2.base.url", "gzoom2");
 				}
 		 		else if(req.getServletPath().indexOf("gzoomDoLogin")>0) {
 					manageSamlRequest(req, resp,"gzoom.base.url", "soa");
@@ -119,6 +119,11 @@ public class SamlFilter implements Filter{
 		}
 		req.getSession().setAttribute(from +"ReturnUrl", baseUrl);
 		req.getSession().setAttribute("from", from);
+
+		String gzoom2ApiGetTokenUrl = AuthWrapper.getProperties("gzoom").getProperty("gzoom2.api.getToken.url");
+		String gzoom2ApiKey = AuthWrapper.getProperties("gzoom").getProperty("gzoom2.api.key");
+		req.getSession().setAttribute("gzoom2ApiGetTokenUrl",gzoom2ApiGetTokenUrl);
+		req.getSession().setAttribute("gzoom2ApiKey",gzoom2ApiKey);
 		Auth auth = com.maps.saml.util.AuthWrapper.getAuth(req, resp);
 		//Auth auth = new Auth("saml.properties.gzoom",req, resp);
 		auth.login("/gzoom-saml-web/"+from+".jsp");
