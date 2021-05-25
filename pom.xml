@@ -8,6 +8,45 @@
 	<packaging>war</packaging>
 	<name>GZOOM SAML Webapp</name>
 
+  <properties>
+		<!--  artefactory                                                           
+					These properties are used only for local build                          
+					Bitbucket pipeline override the value with workspace variables          
+		-->                                                                     
+		<mvn_artifactory_host>mapsgroup.jfrog.io</mvn_artifactory_host>             
+		<mvn_artifactory_publish_repo>gzoom2-backend-local</mvn_artifactory_publish_repo>
+		<mvn_artifactory_dependencies_repo>maps-mvn</mvn_artifactory_dependencies_repo>
+	</properties>
+  <!-- ============================ Repositories ============================ -->
+  <repositories>                                                              
+      <repository>                                                            
+          <id>Maps Artifacts</id>                                             
+          <url>https://${mvn_artifactory_host}/artifactory/${mvn_artifactory_dependencies_repo}</url>
+          <releases>                                                          
+              <enabled>true</enabled>                                         
+              <checksumPolicy>ignore</checksumPolicy>                         
+              <updatePolicy>always</updatePolicy>                             
+          </releases>                                                         
+          <snapshots>                                                         
+              <enabled>true</enabled>                                         
+              <checksumPolicy>ignore</checksumPolicy>                         
+              <updatePolicy>always</updatePolicy>                             
+          </snapshots>                                                        
+      </repository>                                                           
+  </repositories>                                                             
+
+    <distributionManagement>
+        <repository>
+            <id>Maps Artifacts</id>
+            <name>Maps Artifacts-releases</name>
+						<url>https://${mvn_artifactory_host}/artifactory/${mvn_artifactory_publish_repo}</url>
+        </repository>
+        <snapshotRepository>
+            <id>Maps Artifacts</id>
+            <name>Maps Artifacts-snapshots</name>
+						<url>https://${mvn_artifactory_host}/artifactory/${mvn_artifactory_publish_repo}</url>
+        </snapshotRepository>
+    </distributionManagement>
 	<dependencies>
 	 
   

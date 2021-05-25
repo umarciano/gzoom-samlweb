@@ -1,0 +1,28 @@
+
+<!--
+This file is used by Bitbucket pipeline to read the credntial for JFrom Maven repository
+The variables jfrog_user and jfrog_password ar edefined as workspace variables
+-->
+
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+	<profiles>
+    <profile>
+        <id>bbpipeline</id>
+        <properties>
+						<mvn_artifactory_host>${env.mvn_artifactory_host}</mvn_artifactory_host>             
+						<mvn_artifactory_publish_repo>${env.mvn_artifactory_publish_repo}</mvn_artifactory_publish_repo>
+						<mvn_artifactory_dependencies_repo>${env.mvn_artifactory_dependencies_repo}</mvn_artifactory_dependencies_repo>
+        </properties>
+    </profile>
+	</profiles>
+  <servers>
+    <server>
+      <id>Maps Artifacts</id>
+      <username>${env.mvn_artifactory_user}</username>
+      <password>${env.mvn_artifactory_password}</password>
+    </server>
+  </servers>
+  
+</settings>

@@ -1,0 +1,17 @@
+image: amazoncorretto:11
+
+pipelines:
+  branches:
+    master: #name of this pipeline
+      - step:
+          name: Build Maven project
+          script:
+            - if [ ! -d /opt/apache-maven-3.5.4 ]; then
+            - yum install -y wget tar gzip
+            - pushd .
+            - cd /opt 
+            - wget https://archive.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
+            - tar -xzvf apache-maven-3.5.4-bin.tar.gz
+            - popd
+            - fi
+            - /opt/apache-maven-3.5.4/bin/mvn -s settings.xml -P bbpipeline clean deploy
