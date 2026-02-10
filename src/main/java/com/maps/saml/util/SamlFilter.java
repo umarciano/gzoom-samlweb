@@ -120,10 +120,24 @@ public class SamlFilter implements Filter{
 		req.getSession().setAttribute(from +"ReturnUrl", baseUrl);
 		req.getSession().setAttribute("from", from);
 
-		String gzoom2ApiGetTokenUrl = AuthWrapper.getProperties("gzoom").getProperty("gzoom2.api.getToken.url");
-		String gzoom2ApiKey = AuthWrapper.getProperties("gzoom").getProperty("gzoom2.api.key");
-		req.getSession().setAttribute("gzoom2ApiGetTokenUrl",gzoom2ApiGetTokenUrl);
-		req.getSession().setAttribute("gzoom2ApiKey",gzoom2ApiKey);
+		// Configurazione per gzoom2 (API approach)
+		if ("gzoom2".equals(from)) {
+			String gzoom2ApiGetTokenUrl = AuthWrapper.getProperties("gzoom").getProperty("gzoom2.api.getToken.url");
+			String gzoom2ApiKey = AuthWrapper.getProperties("gzoom").getProperty("gzoom2.api.key");
+			req.getSession().setAttribute("gzoom2ApiGetTokenUrl",gzoom2ApiGetTokenUrl);
+			req.getSession().setAttribute("gzoom2ApiKey",gzoom2ApiKey);
+		}
+		// Configurazione per soa (OFBiz legacy) - redirect a /gzoom/control/samlLogin
+		else if ("soa".equals(from)) {
+			// Il returnUrl deve puntare al controller samlLogin di OFBiz
+			String ofbizLoginUrl = AuthWrapper.getProperties("gzoom").getProperty("gzoom.base.url");
+			if (!ofbizLoginUrl.endsWith("/")) {
+				ofbizLoginUrl += "/";
+			}
+			ofbizLoginUrl += "gzoom/control/samlLogin";
+			req.getSession().setAttribute("soaReturnUrl", ofbizLoginUrl);
+		}
+		
 		Auth auth = com.maps.saml.util.AuthWrapper.getAuth(req, resp);
 		//Auth auth = new Auth("saml.properties.gzoom",req, resp);
 		auth.login("/gzoom-saml-web/"+from+".jsp");

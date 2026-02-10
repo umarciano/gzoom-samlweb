@@ -11,15 +11,24 @@
 <!DOCTYPE html>
 <html>
 <script>
-function loginOnSoa(user, hrefUrl) {
+function loginOnSoa(user, fiscalCode, hrefUrl) {
 	var form = document.createElement("form");
-	input = document.createElement("input");
+	var inputAccount = document.createElement("input");
+	var inputFiscalCode = document.createElement("input");
+	
 	form.action = hrefUrl;
-	form.method = "post"
-	input.type = "hidden";
-	input.name = "saml_account";
-	input.value = user;
-	form.appendChild(input);
+	form.method = "post";
+	
+	inputAccount.type = "hidden";
+	inputAccount.name = "saml_account";
+	inputAccount.value = user;
+	
+	inputFiscalCode.type = "hidden";
+	inputFiscalCode.name = "saml_fiscalcode";
+	inputFiscalCode.value = fiscalCode;
+	
+	form.appendChild(inputAccount);
+	form.appendChild(inputFiscalCode);
 	document.body.appendChild(form);
 	form.submit();
 };
@@ -31,12 +40,45 @@ function loginOnSoa(user, hrefUrl) {
 	 <title>GZOOM SAML App</title>
 	 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
      <%
-		 	Base64.Encoder enc = Base64.getEncoder();
-		 	String nameId = (String) session.getAttribute("upn");
-		    nameId = enc.encodeToString(nameId.getBytes());
+		 	// Recupera gli attributi SAML dalla sessione
+		 	@SuppressWarnings("unchecked")
+		 	Map<String, List<String>> attributes = (Map<String, List<String>>) session.getAttribute("attributes");
+		 	
+		 	// Estrae matricola dal NameID
+		 	String matricola = (String) session.getAttribute("nameId");
+		 	if (matricola == null || matricola.trim().isEmpty()) {
+		 		// Fallback: prova a leggere dall'attributo matricola
+		 		if (attributes != null && attributes.containsKey("matricola")) {
+		 			List<String> matricolaList = attributes.get("matricola");
+		 			if (matricolaList != null && !matricolaList.isEmpty()) {
+		 				matricola = matricolaList.get(0);
+		 			}
+		 		}
+		 	}
+		 	
+		 	// Estrae fiscalCode dagli attributi
+		 	String fiscalCode = "";
+		 	if (attributes != null && attributes.containsKey("fiscalCode")) {
+		 		List<String> fiscalCodeList = attributes.get("fiscalCode");
+		 		if (fiscalCodeList != null && !fiscalCodeList.isEmpty()) {
+		 			fiscalCode = fiscalCodeList.get(0);
+		 		}
+		 	}
+		 	
+		 	// URL di ritorno
 		    String returnUrl = (String) session.getAttribute("soaReturnUrl");
+		    
+		    // Log per debug
+		    System.out.println("soa.jsp - matricola: " + matricola);
+		    System.out.println("soa.jsp - fiscalCode: " + fiscalCode);
+		    System.out.println("soa.jsp - returnUrl: " + returnUrl);
 	 %>
 </head>
-<body onload="loginOnSoa('<%=nameId%>', '<%=returnUrl%>');"></body>
+<body onload="loginOnSoa('<%=matricola%>', '<%=fiscalCode%>', '<%=returnUrl%>');">
+	<div class="container">
+		<h1>GZOOM SAML - Redirecting to Application...</h1>
+		<p>Please wait...</p>
+	</div>
+</body>
 </html>
 

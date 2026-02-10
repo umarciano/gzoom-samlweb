@@ -58,12 +58,14 @@ onelogin.saml2.sp.privatekey =
 #
 
 # Identifier of the IdP entity  (must be a URI)
+# TODO: AGGIORNARE con Entity ID fornito dal fornitore IdP (esempio: https://idp.cardarelli.it/entity o https://sts.windows.net/<tenant-id>/)
 #onelogin.saml2.idp.entityid =https://app.onelogin.com/saml/metadata/bd889a92-977f-4b17-9ac5-8fef78581865
 onelogin.saml2.idp.entityid =https://sts.windows.net/d703ad8a-8776-4bc2-a06e-df4295b95c25/
 
 
 # SSO endpoint info of the IdP. (Authentication Request protocol)
 # URL Target of the IdP where the SP will send the Authentication Request Message
+# TODO: AGGIORNARE con SSO URL fornito dal fornitore IdP (endpoint di autenticazione)
 #onelogin.saml2.idp.single_sign_on_service.url =https://maps-dev.onelogin.com/trust/saml2/http-post/sso/bd889a92-977f-4b17-9ac5-8fef78581865
 onelogin.saml2.idp.single_sign_on_service.url =https://login.microsoftonline.com/d703ad8a-8776-4bc2-a06e-df4295b95c25/saml2
 
@@ -75,6 +77,7 @@ onelogin.saml2.idp.single_sign_on_service.binding = urn:oasis:names:tc:SAML:2.0:
 
 # SLO endpoint info of the IdP.
 # URL Location of the IdP where the SP will send the SLO Request
+# TODO: AGGIORNARE con SLO URL fornito dal fornitore IdP (endpoint Single Logout - opzionale)
 #onelogin.saml2.idp.single_logout_service.url =https://maps-dev.onelogin.com/trust/saml2/http-redirect/slo/1412586
 #onelogin.saml2.idp.single_logout_service.url =https://login.microsoftonline.com/d703ad8a-8776-4bc2-a06e-df4295b95c25/saml2
 
@@ -85,6 +88,7 @@ onelogin.saml2.idp.single_logout_service.url = https://login.microsoftonline.com
 # Optional SLO Response endpoint info of the IdP.
 # URL Location of the IdP where the SP will send the SLO Response. If left blank, same URL as onelogin.saml2.idp.single_logout_service.url will be used.
 # Some IdPs use a separate URL for sending a logout request and response, use this property to set the separate response url
+# TODO: AGGIORNARE se il fornitore IdP fornisce un URL separato per la risposta SLO (opzionale)
 #onelogin.saml2.idp.single_logout_service.response.url = https://sts.pizzarotti.it/adfs/ls/
 onelogin.saml2.idp.single_logout_service.response.url = https://login.microsoftonline.com/d703ad8a-8776-4bc2-a06e-df4295b95c25/saml2
 
@@ -94,6 +98,9 @@ onelogin.saml2.idp.single_logout_service.response.url = https://login.microsofto
 onelogin.saml2.idp.single_logout_service.binding = urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect
 
 # Public x509 certificate of the IdP
+# TODO: AGGIORNARE con il certificato X.509 pubblico fornito dal fornitore IdP in formato PEM
+# IMPORTANTE: Il certificato deve essere una stringa continua senza interruzioni di riga (tutto su una riga)
+# Formato: -----BEGIN CERTIFICATE-----<contenuto_base64>-----END CERTIFICATE-----
 #onelogin.saml2.idp.x509cert =-----BEGIN CERTIFICATE-----MIID0jCCArqgAwIBAgIUYw6897OBR4eh4096nhQiz4yzJkEwDQYJKoZIhvcNAQEFBQAwQjENMAsGA1UECgwEbWFwczEVMBMGA1UECwwMT25lTG9naW4gSWRQMRowGAYDVQQDDBFPbmVMb2dpbiBBY2NvdW50IDAeFw0yMTA0MDcxMDIwMzRaFw0yNjA0MDcxMDIwMzRaMEIxDTALBgNVBAoMBG1hcHMxFTATBgNVBAsMDE9uZUxvZ2luIElkUDEaMBgGA1UEAwwRT25lTG9naW4gQWNjb3VudCAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC/aVglKLGSsxoMg2GX3G372v2xIAeflVPUJPUkYWXd6TGLJ/0+m/kLYvRVj5fs5BsnmEGuE17gwKuErO36dYxMMZxc6YU3u75kmeJh34rmZMNtDfBVcbkU4ruZEyFkPrWzUhEpb6ZMUdzn6hIkvNFP4UwIOxdz4h6NXzbx7XtqqzgSyUl4faVoLS4lBbo0JZkJMnst0JyAC8ze3FKcXr9Xodhs1jmOz40eQ3+rUx+uZeLZZQr+3NAnyWXDYZi0sr3DD8ExM8eskgp+hoDA6kiut3P32a/LoCdVU3gBC5Cw1eM0JEe3uMf3qjXKDkqBMm+MjTauPSR+MRBd733ZlB75AgMBAAGjgb8wgbwwDAYDVR0TAQH/BAIwADAdBgNVHQ4EFgQU5Yrl7q6+YpFGTga4c9JJ8IPM3u0wfQYDVR0jBHYwdIAU5Yrl7q6+YpFGTga4c9JJ8IPM3u2hRqREMEIxDTALBgNVBAoMBG1hcHMxFTATBgNVBAsMDE9uZUxvZ2luIElkUDEaMBgGA1UEAwwRT25lTG9naW4gQWNjb3VudCCCFGMOvPezgUeHoeNPep4UIs+MsyZBMA4GA1UdDwEB/wQEAwIHgDANBgkqhkiG9w0BAQUFAAOCAQEAGp7UsHR0qXdl8kDJKEeR1x7TLW8dYqHJ+PccFL7leXjjo1HvqwjTeJkNglahn09zAjRH6uNDHHDAYUFdGU51G1IPdnPZ5qfrhnVyCdy/GM/5a7qNaVGzcjgx0QiSvrPwq/pqqZ2+gWbqHfsi9f3LSO+UlF8/rLQgmDyxYl4nyQOmV9r4+g6mxEsbYQnW9TwyrErqI3tJymzecQR4Mvr5onxWwfXVYeqhdGf4ZWzqA/gxubGPfmPEorVq0AR2exe0O9F9cqGgUt7q12ePAJYtSllVGBhUdccK12Nz7o/nUc0odunAU4zJeoBfF5LuevYq7INhkaBCETTpimOphsc7nA==-----END CERTIFICATE-----
 onelogin.saml2.idp.x509cert =-----BEGIN CERTIFICATE-----MIIC8DCCAdigAwIBAgIQGCsCxquAtYpElm1dpniuVzANBgkqhkiG9w0BAQsFADA0MTIwMAYDVQQDEylNaWNyb3NvZnQgQXp1cmUgRmVkZXJhdGVkIFNTTyBDZXJ0aWZpY2F0ZTAeFw0yMTA0MDgxNTI5NTFaFw0yNDA0MDgxNTI5NDZaMDQxMjAwBgNVBAMTKU1pY3Jvc29mdCBBenVyZSBGZWRlcmF0ZWQgU1NPIENlcnRpZmljYXRlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsOULYkV2Drno1jqx8eabSOxL20W9UIQBqAGvTRYaqCGw/c5DYMQW5GO0WtbsHvb4w6fF540+5DGIXJHo2kNTKZHw4xrFxt8k3Iv8L+lu5Hia9Gl8Wmxe9kYD/Q4nxDKeidFmHjHW/KHB1fk9GRH0o0SfJ36z/UF92Q7iGgeLHwymfShXHbn6RKqrpIAptZZDlU9UhQRFruCgyY9fy9PTIdMSPz09zR3SuFKdPhAPlD8PziVe2nyep1gtAdfXXivR5Uz1vSIvIoIgcOaocrhY91Tjo7zILit5iI40tJwk5c8vBorB7a91BOux11Ry5VqfQ1VZgs2uq5vLtFbwk9/YSQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAICyRsiXAZ40IwZ2jgbqrdKlZG6wzWxmL3zw2IhcO5i2Q6qSbz1/jlrjWremFhtmRzXyHJSPhnUpjfcIFpTFCl217WSFbhiy9KM1VWE7ORZlzsuMCfJEjxsk4SJ6jw+Aa+VmkEIisnGmfQ9ReABlfWJ1jkL9wfNp+Rl60v6U07XRtQ+odR0D6hGVpocitDjrZe/d8QHyTZcvzWWUNRg/BWF1TnVQ08Efgjn5DBVZ6gzudPA3AolFXv7arpM6+hl0vxGpI/0xgzisMJQO4DEpHzcDKELKyUzjh1bbX0YgZa8F2b9p/mbftsf+ULje7H0v14B6juS5v8EFKAuEX9rRBg-----END CERTIFICATE-----
 
