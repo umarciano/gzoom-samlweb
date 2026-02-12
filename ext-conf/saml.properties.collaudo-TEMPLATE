@@ -1,0 +1,54 @@
+# Configurazione SAML per Ambiente di Collaudo
+# Da usare quando si deploya su macchina di collaudo con dominio pubblico
+
+# IMPORTANTE: Sostituire <DOMINIO_PUBBLICO> con il dominio/IP pubblico della macchina di collaudo
+# Esempi:
+#   https://gzoom-test.cardarelli.it
+#   https://172.20.145.105:8443
+#   https://collaudo.ospedale-cardarelli.it
+
+# Service Provider Entity ID (identificativo unico della tua applicazione)
+onelogin.saml2.sp.entityid = <DOMINIO_PUBBLICO>/gzoom-saml-web/metadata.jsp
+
+# Assertion Consumer Service URL (dove l'IdP invierà la SAML Response)
+onelogin.saml2.sp.assertion_consumer_service.url = <DOMINIO_PUBBLICO>/gzoom-saml-web/acs.jsp
+onelogin.saml2.sp.assertion_consumer_service.binding = urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST
+
+# Single Logout Service URL (per il logout SSO)
+onelogin.saml2.sp.single_logout_service.url = <DOMINIO_PUBBLICO>/gzoom-saml-web/sls.jsp
+onelogin.saml2.sp.single_logout_service.binding = urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect
+
+# NameID Format (deve corrispondere a quello configurato dal provider)
+onelogin.saml2.sp.nameidformat = urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified
+
+# Identity Provider Configuration (già configurato con dati Cardarelli)
+onelogin.saml2.idp.entityid = https://identity.ospedalecardarelli.it/realms/aurora
+onelogin.saml2.idp.single_sign_on_service.url = https://identity.ospedalecardarelli.it/realms/aurora/protocol/saml
+onelogin.saml2.idp.single_sign_on_service.binding = urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect
+onelogin.saml2.idp.single_logout_service.url = https://identity.ospedalecardarelli.it/realms/aurora/protocol/saml
+onelogin.saml2.idp.single_logout_service.response.url = https://identity.ospedalecardarelli.it/realms/aurora/protocol/saml
+onelogin.saml2.idp.single_logout_service.binding = urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect
+
+# Certificato X.509 dell'IdP (già configurato)
+onelogin.saml2.idp.x509cert = MIICmzCCAYMCBgGZdhBUcTANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDDAZhdXJvcmEwHhcNMjUwOTIzMTAxMTQ1WhcNMzUwOTIzMTAxMzI1WjARMQ8wDQYDVQQDDAZhdXJvcmEwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDBoGaiPDPG2UL5P2/DUzLJ4UgnKbE8P6GIavEKou4/EIIIqpqoOi7WQrLCJKcjTIX0UfqQaPEGelv+xzA3wQmISo6A07p3GlqEzG5S/sf5BMAR6fh4tvFNplRssGwNZqftzRERPrzefFx5IoYepkXjbyhVo3f3CV71royEqvb0jjBHSyVlCIIC1Ofx2NPDmOS6pc4kXWbyNzyMWwkHAq1xeeCry1Y35+QW/ozuwLBopg6oPTxGxgyiFXehezgZ4o51PZ+XY+Vf3mWDdw9fnDFApSGWITUwGYF0GAHP6WPK+vGbouGJp1mOFO93XzYP/jPo7anm+qkS1Q7fColMvlnPAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAJ17m80gwowzaxWaOpUd+shtI434+2cJOm7kQcKJo9A10tuZZ6RNzS9SHX152cTBLI3tU8l76doAUt2D805viIY2pOFOVobICVd1Vv5+epL4F7EgW+h9uYX1xqhIWyigZ852Vj5DsgqlaanikcfiRQuw+cQBalNHQk/UEdPtIk2iJBsiyqsvkPNdG3pWLj2C5tITqVyLo4UDAg7qAJwmasKfIV/QJTs+D4ItWazrpfj+O29adCz53b4Jh84QEx/OmlWay3Frfkfq6/AAbSg+L80NCtVKdBDMGHUc+ieL8J+zGoIrRCH/efN9LUmephDTSxVx6uwUSWB+0vkB8RnxY9E=
+
+# Security settings
+onelogin.saml2.strict = true
+onelogin.saml2.debug = false
+onelogin.saml2.security.authnrequest_signed = false
+onelogin.saml2.security.want_messages_signed = false
+onelogin.saml2.security.want_assertions_signed = false
+onelogin.saml2.security.want_assertions_encrypted = false
+onelogin.saml2.security.signature_algorithm = http://www.w3.org/2001/04/xmldsig-more#rsa-sha256
+onelogin.saml2.security.digest_algorithm = http://www.w3.org/2001/04/xmlenc#sha256
+
+# Application URLs
+gzoom.base.url = <DOMINIO_PUBBLICO_GZOOM_LEGACY>
+gzoom2.base.url = <DOMINIO_PUBBLICO_GZOOM2_FRONTEND>
+gzoom2.api.getToken.url = <DOMINIO_PUBBLICO_GZOOM2_BACKEND>/rest/api/getToken
+gzoom2.api.key = mUZEPHgeMzhhtyurkmWKDNmzf2jMYwo36QTAC6yw2ftdT2Scrm
+
+# Esempio con dominio reale:
+# gzoom.base.url = https://gzoom-test.cardarelli.it:8080
+# gzoom2.base.url = https://gzoom-test.cardarelli.it:4200
+# gzoom2.api.getToken.url = https://gzoom-test.cardarelli.it:8081/rest/api/getToken

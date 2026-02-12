@@ -41,10 +41,17 @@ function loginOnSoa(user, fiscalCode, hrefUrl) {
 	 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
      <%
 		 	// Recupera gli attributi SAML dalla sessione
+		 	// Formato attributi forniti dal provider Cardarelli (Keycloak):
+		 	// - NameID: xs:string, urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified
+		 	// - matricola: xs:string, urn:oasis:names:tc:SAML:2.0:attrname-format:basic
+		 	// - fiscalCode: xs:string, urn:oasis:names:tc:SAML:2.0:attrname-format:basic
+		 	// - email: xs:string, urn:oasis:names:tc:SAML:2.0:attrname-format:basic
+		 	// - displayName: xs:string, urn:oasis:names:tc:SAML:2.0:attrname-format:basic
+		 	
 		 	@SuppressWarnings("unchecked")
 		 	Map<String, List<String>> attributes = (Map<String, List<String>>) session.getAttribute("attributes");
 		 	
-		 	// Estrae matricola dal NameID
+		 	// Estrae matricola (preferibilmente dal NameID)
 		 	String matricola = (String) session.getAttribute("nameId");
 		 	if (matricola == null || matricola.trim().isEmpty()) {
 		 		// Fallback: prova a leggere dall'attributo matricola
@@ -56,12 +63,35 @@ function loginOnSoa(user, fiscalCode, hrefUrl) {
 		 		}
 		 	}
 		 	
-		 	// Estrae fiscalCode dagli attributi
+		 	// Pulisce la matricola se contiene "@"
+		 	if (matricola != null && matricola.indexOf("@") > 0) {
+		 		matricola = matricola.substring(0, matricola.indexOf("@"));
+		 	}
+		 	
+		 	// Estrae fiscalCode dagli attributi SAML
 		 	String fiscalCode = "";
 		 	if (attributes != null && attributes.containsKey("fiscalCode")) {
 		 		List<String> fiscalCodeList = attributes.get("fiscalCode");
 		 		if (fiscalCodeList != null && !fiscalCodeList.isEmpty()) {
 		 			fiscalCode = fiscalCodeList.get(0);
+		 		}
+		 	}
+		 	
+		 	// Estrae email dagli attributi SAML (opzionale)
+		 	String email = "";
+		 	if (attributes != null && attributes.containsKey("email")) {
+		 		List<String> emailList = attributes.get("email");
+		 		if (emailList != null && !emailList.isEmpty()) {
+		 			email = emailList.get(0);
+		 		}
+		 	}
+		 	
+		 	// Estrae displayName dagli attributi SAML (opzionale)
+		 	String displayName = "";
+		 	if (attributes != null && attributes.containsKey("displayName")) {
+		 		List<String> displayNameList = attributes.get("displayName");
+		 		if (displayNameList != null && !displayNameList.isEmpty()) {
+		 			displayName = displayNameList.get(0);
 		 		}
 		 	}
 		 	
@@ -71,6 +101,8 @@ function loginOnSoa(user, fiscalCode, hrefUrl) {
 		    // Log per debug
 		    System.out.println("soa.jsp - matricola: " + matricola);
 		    System.out.println("soa.jsp - fiscalCode: " + fiscalCode);
+		    System.out.println("soa.jsp - email: " + email);
+		    System.out.println("soa.jsp - displayName: " + displayName);
 		    System.out.println("soa.jsp - returnUrl: " + returnUrl);
 	 %>
 </head>

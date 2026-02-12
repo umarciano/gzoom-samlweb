@@ -75,17 +75,45 @@ public class SamlFilter implements Filter{
 						req.getRequestDispatcher("error.jsp").forward(req, resp);
 					}
 
-					//Map<String, List<String>> attributes = auth.getAttributes();
+					// Estrae la matricola (preferibilmente dal NameID, altrimenti dall'attributo matricola)
+					// Formato attributi forniti dal provider Cardarelli:
+					// - NameID: xs:string, urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified
+					// - matricola: xs:string, urn:oasis:names:tc:SAML:2.0:attrname-format:basic
+					// - fiscalCode: xs:string, urn:oasis:names:tc:SAML:2.0:attrname-format:basic
+					// - email: xs:string, urn:oasis:names:tc:SAML:2.0:attrname-format:basic
+					// - displayName: xs:string, urn:oasis:names:tc:SAML:2.0:attrname-format:basic
+					
 					attributes = auth.getAttributes();
-					//List<String> el  = attributes.get("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn");
-					List<String> el  = attributes.get("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name");
-					if (el == null || el.isEmpty())
-						throw new RuntimeException("UPN claim is empty");
-					String name = el.get(0);
-					if (name.indexOf("@")>0) 
-						name = name.substring(0, name.indexOf("@"));
-					LOGGER.info("GOT user principal " + name);
-					 	req.getSession().setAttribute("upn", name); 
+					String matricola = null;
+					String nameId = auth.getNameId();
+					
+					// Prova prima a prendere la matricola dal NameID
+					if (nameId != null && !nameId.trim().isEmpty()) {
+						matricola = nameId.trim();
+						LOGGER.info("Matricola estratta da NameID: " + matricola);
+					}
+					
+					// Se NameID è vuoto, prova dall'attributo "matricola"
+					if (matricola == null || matricola.isEmpty()) {
+						List<String> matricolaAttr = attributes.get("matricola");
+						if (matricolaAttr != null && !matricolaAttr.isEmpty()) {
+							matricola = matricolaAttr.get(0);
+							LOGGER.info("Matricola estratta dall'attributo 'matricola': " + matricola);
+						}
+					}
+					
+					// Se la matricola contiene "@", estraiamo solo la parte prima della @
+					if (matricola != null && matricola.indexOf("@") > 0) {
+						matricola = matricola.substring(0, matricola.indexOf("@"));
+						LOGGER.info("Matricola pulita (rimossa @): " + matricola);
+					}
+					
+					if (matricola == null || matricola.isEmpty()) {
+						throw new RuntimeException("Matricola non trovata nella SAML Response (né in NameID né nell'attributo 'matricola')");
+					}
+					
+					LOGGER.info("GOT user matricola: " + matricola);
+					req.getSession().setAttribute("upn", matricola); 
 					LOGGER.info("GOT return url for RCA " + req.getSession().getAttribute("rcaReturnUrl"));
 					LOGGER.info("GOT return url for SOA " + req.getSession().getAttribute("soaReturnUrl"));
 					resp.sendRedirect(req.getParameter("RelayState"));
