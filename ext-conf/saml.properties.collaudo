@@ -1,0 +1,161 @@
+#  If 'strict' is True, then the Java Toolkit will reject unsigned
+#  or unencrypted messages if it expects them signed or encrypted
+#  Also will reject the messages if not strictly follow the SAML
+onelogin.saml2.strict =  true
+
+# Enable debug mode (to print errors)
+onelogin.saml2.debug =  false
+
+
+#  Service Provider Data that we are deploying
+#
+
+#  Identifier of the SP entity  (must be a URI)
+#  COLLAUDO: gzoom-saml-web è montata su OFBiz alla porta 8080
+onelogin.saml2.sp.entityid = http://172.20.145.105:8080/gzoom-saml-web/metadata.jsp
+
+# Specifies info about where and how the <AuthnResponse> message MUST be
+#  returned to the requester, in this case our SP.
+# URL Location where the <Response> from the IdP will be returned
+onelogin.saml2.sp.assertion_consumer_service.url = http://172.20.145.105:8080/gzoom-saml-web/acs.jsp
+
+# SAML protocol binding to be used when returning the <Response>
+# message.  Onelogin Toolkit supports for this endpoint the
+# HTTP-POST binding only
+onelogin.saml2.sp.assertion_consumer_service.binding = urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST
+
+# Specifies info about where and how the <Logout Response> message MUST be
+# returned to the requester, in this case our SP.
+onelogin.saml2.sp.single_logout_service.url = http://172.20.145.105:8080/gzoom-saml-web/sls.jsp
+
+# SAML protocol binding to be used when returning the <LogoutResponse> or sending the <LogoutRequest>
+# message.  Onelogin Toolkit supports for this endpoint the
+# HTTP-Redirect binding only
+onelogin.saml2.sp.single_logout_service.binding = urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect
+
+# Specifies constraints on the name identifier to be used to
+# represent the requested subject.
+# Aggiornato con NameID format fornito dal provider: unspecified
+onelogin.saml2.sp.nameidformat = urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified
+
+# SP certificate and private key (not required if IdP does not require signed requests)
+onelogin.saml2.sp.x509cert =
+onelogin.saml2.sp.privatekey =
+
+# Identity Provider Data that we want connect with our SP
+#
+
+# Identifier of the IdP entity  (must be a URI)
+# Aggiornato con Entity ID fornito dal fornitore IdP Cardarelli
+onelogin.saml2.idp.entityid = https://identity.ospedalecardarelli.it/realms/aurora
+
+# SSO endpoint info of the IdP. (Authentication Request protocol)
+# URL Target of the IdP where the SP will send the Authentication Request Message
+# Aggiornato con SSO URL fornito dal fornitore IdP Cardarelli
+onelogin.saml2.idp.single_sign_on_service.url = https://identity.ospedalecardarelli.it/realms/aurora/protocol/saml
+
+# SAML protocol binding to be used when returning the <Response>
+# message.  Onelogin Toolkit supports for this endpoint the
+# HTTP-Redirect binding only
+onelogin.saml2.idp.single_sign_on_service.binding = urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect
+
+# SLO endpoint info of the IdP.
+# URL Location of the IdP where the SP will send the SLO Request
+# Aggiornato con SLO URL fornito dal fornitore IdP Cardarelli
+onelogin.saml2.idp.single_logout_service.url = https://identity.ospedalecardarelli.it/realms/aurora/protocol/saml
+
+# Optional SLO Response endpoint info of the IdP.
+# Aggiornato con SLO URL fornito dal fornitore IdP Cardarelli (stesso endpoint per request e response)
+onelogin.saml2.idp.single_logout_service.response.url = https://identity.ospedalecardarelli.it/realms/aurora/protocol/saml
+
+# SAML protocol binding to be used when returning the <Response>
+onelogin.saml2.idp.single_logout_service.binding = urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect
+
+# Public x509 certificate of the IdP
+# Certificato X.509 pubblico scaricato dai metadata IdP Cardarelli
+# URL Metadata: https://identity.ospedalecardarelli.it/realms/aurora/protocol/saml/descriptor
+# Validità: 23 Set 2025 - 23 Set 2035
+# KeyName: 1Hrm5XoMK63Zkcw6f2-PhwskiWekpAyPmYnc4aPMsTU
+# IMPORTANTE: Il certificato deve essere su una sola riga senza interruzioni
+onelogin.saml2.idp.x509cert = MIICmzCCAYMCBgGZdhBUcTANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDDAZhdXJvcmEwHhcNMjUwOTIzMTAxMTQ1WhcNMzUwOTIzMTAxMzI1WjARMQ8wDQYDVQQDDAZhdXJvcmEwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDBoGaiPDPG2UL5P2/DUzLJ4UgnKbE8P6GIavEKou4/EIIIqpqoOi7WQrLCJKcjTIX0UfqQaPEGelv+xzA3wQmISo6A07p3GlqEzG5S/sf5BMAR6fh4tvFNplRssGwNZqftzRERPrzefFx5IoYepkXjbyhVo3f3CV71royEqvb0jjBHSyVlCIIC1Ofx2NPDmOS6pc4kXWbyNzyMWwkHAq1xeeCry1Y35+QW/ozuwLBopg6oPTxGxgyiFXehezgZ4o51PZ+XY+Vf3mWDdw9fnDFApSGWITUwGYF0GAHP6WPK+vGbouGJp1mOFO93XzYP/jPo7anm+qkS1Q7fColMvlnPAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAJ17m80gwowzaxWaOpUd+shtI434+2cJOm7kQcKJo9A10tuZZ6RNzS9SHX152cTBLI3tU8l76doAUt2D805viIY2pOFOVobICVd1Vv5+epL4F7EgW+h9uYX1xqhIWyigZ852Vj5DsgqlaanikcfiRQuw+cQBalNHQk/UEdPtIk2iJBsiyqsvkPNdG3pWLj2C5tITqVyLo4UDAg7qAJwmasKfIV/QJTs+D4ItWazrpfj+O29adCz53b4Jh84QEx/OmlWay3Frfkfq6/AAbSg+L80NCtVKdBDMGHUc+ieL8J+zGoIrRCH/efN9LUmephDTSxVx6uwUSWB+0vkB8RnxY9E=
+
+
+# Security settings
+#
+
+# Indicates that the nameID of the <samlp:logoutRequest> sent by this SP
+# will be encrypted.
+onelogin.saml2.security.nameid_encrypted = false
+
+# Indicates whether the <samlp:AuthnRequest> messages sent by this SP
+# will be signed.
+onelogin.saml2.security.authnrequest_signed = false
+
+# Indicates whether the <samlp:logoutRequest> messages sent by this SP
+# will be signed.
+onelogin.saml2.security.logoutrequest_signed = false
+
+# Indicates whether the <samlp:logoutResponse> messages sent by this SP
+# will be signed.
+onelogin.saml2.security.logoutresponse_signed = false
+
+# Indicates a requirement for the <samlp:Response>, <samlp:LogoutRequest> and
+# <samlp:LogoutResponse> elements received by this SP to be signed.
+onelogin.saml2.security.want_messages_signed = false
+
+# Indicates a requirement for the <saml:Assertion> elements received by this SP to be signed.
+onelogin.saml2.security.want_assertions_signed = false
+
+# Indicates a requirement for the Metadata of this SP to be signed.
+onelogin.saml2.security.sign_metadata =
+
+# Indicates a requirement for the Assertions received by this SP to be encrypted
+onelogin.saml2.security.want_assertions_encrypted = false
+
+# Indicates a requirement for the NameID received by this SP to be encrypted
+onelogin.saml2.security.want_nameid_encrypted = false
+
+# Authentication context.
+onelogin.saml2.security.requested_authncontext = urn:oasis:names:tc:SAML:2.0:ac:classes:Password
+
+# Allows the authn comparison parameter to be set, defaults to 'exact'
+onelogin.saml2.security.onelogin.saml2.security.requested_authncontextcomparison = exact
+
+# Allows duplicated names in the attribute statement
+onelogin.saml2.security.allow_duplicated_attribute_name = false
+
+# Indicates if the SP will validate all received xmls.
+onelogin.saml2.security.want_xml_validation = true
+
+# Algorithm that the toolkit will use on signing process.
+onelogin.saml2.security.signature_algorithm = http://www.w3.org/2001/04/xmldsig-more#rsa-sha256
+
+# Algorithm that the toolkit will use on digest process.
+onelogin.saml2.security.digest_algorithm = http://www.w3.org/2001/04/xmlenc#sha256
+
+# Reject Signatures with deprecated algorithms (sha1)
+onelogin.saml2.security.reject_deprecated_alg = true
+
+# Organization
+onelogin.saml2.organization.name = SP Java
+onelogin.saml2.organization.displayname = SP Java Example
+onelogin.saml2.organization.url = http://sp.example.com
+onelogin.saml2.organization.lang =
+
+# Contacts
+onelogin.saml2.contacts.technical.given_name = Technical Guy
+onelogin.saml2.contacts.technical.email_address = technical@example.com
+onelogin.saml2.contacts.support.given_name = Support Guy
+onelogin.saml2.contacts.support.email_address = support@@example.com
+
+# ===========================================================================
+# COLLAUDO - Application URLs
+# ===========================================================================
+gzoom.base.url=http://172.20.145.105:8080
+rca.base.url=http://172.20.145.105:8080
+
+# gzoom-saml-web è montata su OFBiz (porta 8080), non su Tomcat separato (663)
+gzoom2.base.url=http://172.20.145.105:8080
+
+gzoom2.api.getToken.url=http://172.20.145.105:8081/rest/api/getToken
+gzoom2.api.key=mUZEPHgeMzhhtyurkmWKDNmzf2jMYwo36QTAC6yw2ftdT2Scrm

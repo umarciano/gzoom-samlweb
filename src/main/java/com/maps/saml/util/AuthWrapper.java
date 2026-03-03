@@ -26,20 +26,25 @@ public class AuthWrapper   {
 	private static synchronized void createSettings(String which) throws IOException {
 		if (sp.get(which)==null) {
 			String oneloginConf = System.getProperty("sp.conf");
-			if (oneloginConf == null)
-				oneloginConf =System.getProperty("user.home") + File.separator + "sp" + File.separator + "saml.properties";
-			if (oneloginConf != null)   {
-				FileInputStream propsf = new FileInputStream(oneloginConf+ "."+ which);
-				if (propsf!=null) {
+			if (oneloginConf == null) {
+				oneloginConf = System.getProperty("user.home") + File.separator + "sp" + File.separator + "saml.properties";
+				LOGGER.info("[AuthWrapper] sp.conf non impostato, uso path default: {}.{}", oneloginConf, which);
+			} else {
+				LOGGER.info("[AuthWrapper] Carico SAML properties da sp.conf: {}.{}", oneloginConf, which);
+			}
+			if (oneloginConf != null) {
+				String fullPath = oneloginConf + "." + which;
+				LOGGER.info("[AuthWrapper] Lettura file: {}", fullPath);
+				FileInputStream propsf = new FileInputStream(fullPath);
+				if (propsf != null) {
 					p = new Properties();
 					p.load(propsf);
 					properties.put(which, p);
 					sp.put(which, new SettingsBuilder().fromProperties(p).build());
+					LOGGER.info("[AuthWrapper] SAML settings caricati con successo per profilo: {}", which);
 				}
-			} 
-			 
+			}
 		}
-
 	}
 	
 	public static Properties getProperties(String which) throws IOException{

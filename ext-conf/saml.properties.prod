@@ -1,0 +1,66 @@
+#  GZOOM - SAML Properties - PRODUZIONE
+#  ⚠️ SOSTITUIRE <DOMINIO_PROD> con il dominio reale di produzione
+#  Esempio: https://gzoom.ospedalecardarelli.it
+
+onelogin.saml2.strict = true
+onelogin.saml2.debug = false
+
+# Service Provider - Produzione
+# ⚠️ CONFIGURARE CON IL DOMINIO DI PRODUZIONE REALE
+onelogin.saml2.sp.entityid = https://<DOMINIO_PROD>/gzoom-saml-web/metadata.jsp
+onelogin.saml2.sp.assertion_consumer_service.url = https://<DOMINIO_PROD>/gzoom-saml-web/acs.jsp
+onelogin.saml2.sp.assertion_consumer_service.binding = urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST
+onelogin.saml2.sp.single_logout_service.url = https://<DOMINIO_PROD>/gzoom-saml-web/sls.jsp
+onelogin.saml2.sp.single_logout_service.binding = urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect
+onelogin.saml2.sp.nameidformat = urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified
+onelogin.saml2.sp.x509cert =
+onelogin.saml2.sp.privatekey =
+
+# Identity Provider - Cardarelli (stesso per tutti gli ambienti)
+onelogin.saml2.idp.entityid = https://identity.ospedalecardarelli.it/realms/aurora
+onelogin.saml2.idp.single_sign_on_service.url = https://identity.ospedalecardarelli.it/realms/aurora/protocol/saml
+onelogin.saml2.idp.single_sign_on_service.binding = urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect
+onelogin.saml2.idp.single_logout_service.url = https://identity.ospedalecardarelli.it/realms/aurora/protocol/saml
+onelogin.saml2.idp.single_logout_service.response.url = https://identity.ospedalecardarelli.it/realms/aurora/protocol/saml
+onelogin.saml2.idp.single_logout_service.binding = urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect
+onelogin.saml2.idp.x509cert = MIICmzCCAYMCBgGZdhBUcTANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDDAZhdXJvcmEwHhcNMjUwOTIzMTAxMTQ1WhcNMzUwOTIzMTAxMzI1WjARMQ8wDQYDVQQDDAZhdXJvcmEwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDBoGaiPDPG2UL5P2/DUzLJ4UgnKbE8P6GIavEKou4/EIIIqpqoOi7WQrLCJKcjTIX0UfqQaPEGelv+xzA3wQmISo6A07p3GlqEzG5S/sf5BMAR6fh4tvFNplRssGwNZqftzRERPrzefFx5IoYepkXjbyhVo3f3CV71royEqvb0jjBHSyVlCIIC1Ofx2NPDmOS6pc4kXWbyNzyMWwkHAq1xeeCry1Y35+QW/ozuwLBopg6oPTxGxgyiFXehezgZ4o51PZ+XY+Vf3mWDdw9fnDFApSGWITUwGYF0GAHP6WPK+vGbouGJp1mOFO93XzYP/jPo7anm+qkS1Q7fColMvlnPAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAJ17m80gwowzaxWaOpUd+shtI434+2cJOm7kQcKJo9A10tuZZ6RNzS9SHX152cTBLI3tU8l76doAUt2D805viIY2pOFOVobICVd1Vv5+epL4F7EgW+h9uYX1xqhIWyigZ852Vj5DsgqlaanikcfiRQuw+cQBalNHQk/UEdPtIk2iJBsiyqsvkPNdG3pWLj2C5tITqVyLo4UDAg7qAJwmasKfIV/QJTs+D4ItWazrpfj+O29adCz53b4Jh84QEx/OmlWay3Frfkfq6/AAbSg+L80NCtVKdBDMGHUc+ieL8J+zGoIrRCH/efN9LUmephDTSxVx6uwUSWB+0vkB8RnxY9E=
+
+# Security settings
+onelogin.saml2.security.nameid_encrypted = false
+onelogin.saml2.security.authnrequest_signed = false
+onelogin.saml2.security.logoutrequest_signed = false
+onelogin.saml2.security.logoutresponse_signed = false
+onelogin.saml2.security.want_messages_signed = false
+onelogin.saml2.security.want_assertions_signed = false
+onelogin.saml2.security.sign_metadata =
+onelogin.saml2.security.want_assertions_encrypted = false
+onelogin.saml2.security.want_nameid_encrypted = false
+onelogin.saml2.security.requested_authncontext = urn:oasis:names:tc:SAML:2.0:ac:classes:Password
+onelogin.saml2.security.onelogin.saml2.security.requested_authncontextcomparison = exact
+onelogin.saml2.security.allow_duplicated_attribute_name = false
+onelogin.saml2.security.want_xml_validation = true
+onelogin.saml2.security.signature_algorithm = http://www.w3.org/2001/04/xmldsig-more#rsa-sha256
+onelogin.saml2.security.digest_algorithm = http://www.w3.org/2001/04/xmlenc#sha256
+onelogin.saml2.security.reject_deprecated_alg = true
+
+# Organization
+onelogin.saml2.organization.name = AORN Cardarelli
+onelogin.saml2.organization.displayname = AORN Antonio Cardarelli
+onelogin.saml2.organization.url = https://<DOMINIO_PROD>
+onelogin.saml2.organization.lang = it
+
+# Contacts
+onelogin.saml2.contacts.technical.given_name = Amministratore
+onelogin.saml2.contacts.technical.email_address = amministratore@ospedalecardarelli.it
+onelogin.saml2.contacts.support.given_name = Supporto
+onelogin.saml2.contacts.support.email_address = supporto@ospedalecardarelli.it
+
+# ===========================================================================
+# PRODUZIONE - Application URLs
+# ⚠️ SOSTITUIRE <DOMINIO_PROD> con il dominio reale
+# ===========================================================================
+gzoom.base.url = https://<DOMINIO_PROD>
+rca.base.url = https://<DOMINIO_PROD>
+gzoom2.base.url = https://<DOMINIO_PROD>
+gzoom2.api.getToken.url = https://<DOMINIO_PROD>/rest/api/getToken
+gzoom2.api.key = mUZEPHgeMzhhtyurkmWKDNmzf2jMYwo36QTAC6yw2ftdT2Scrm
