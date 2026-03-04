@@ -13,7 +13,7 @@ onelogin.saml2.debug =  false
 #  Identifier of the SP entity  (must be a URI)
 #onelogin.saml2.sp.entityid = http://localhost:8080/java_saml_tookit_jspsample_war/metadata.jsp
 #onelogin.saml2.sp.entityid = https://localhost:8443/gzoom-saml-web/metadata.jsp
-onelogin.saml2.sp.entityid = http://localhost:663/gzoom-saml-web/metadata.jsp
+onelogin.saml2.sp.entityid = http://localhost:8080/gzoom-saml-web/metadata.jsp
 
 # Specifies info about where and how the <AuthnResponse> message MUST be
 #  returned to the requester, in this case our SP.
@@ -21,7 +21,7 @@ onelogin.saml2.sp.entityid = http://localhost:663/gzoom-saml-web/metadata.jsp
 
 #onelogin.saml2.sp.assertion_consumer_service.url = http://localhost:8080/java_saml_tookit_jspsample_war/acs.jsp
 #onelogin.saml2.sp.assertion_consumer_service.url = https://localhost:8443/gzoom-saml-web/acs.jsp
-onelogin.saml2.sp.assertion_consumer_service.url = http://localhost:663/gzoom-saml-web/acs.jsp
+onelogin.saml2.sp.assertion_consumer_service.url = http://localhost:8080/gzoom-saml-web/acs.jsp
 
 
 # SAML protocol binding to be used when returning the <Response>
@@ -33,7 +33,7 @@ onelogin.saml2.sp.assertion_consumer_service.binding = urn:oasis:names:tc:SAML:2
 # returned to the requester, in this case our SP.
 #onelogin.saml2.sp.single_logout_service.url = http://localhost:8000/java_saml_tookit_jspsample_war/sls.jsp
 #onelogin.saml2.sp.single_logout_service.url = https://localhost:8443/gzoom-saml-web/sls.jsp
-onelogin.saml2.sp.single_logout_service.url = http://localhost:663/gzoom-saml-web/sls.jsp
+onelogin.saml2.sp.single_logout_service.url = http://localhost:8080/gzoom-saml-web/sls.jsp
 
 # SAML protocol binding to be used when returning the <LogoutResponse> or sending the <LogoutRequest>
 # message.  Onelogin Toolkit supports for this endpoint the
@@ -198,7 +198,7 @@ gzoom.base.url=http://localhost:8080
 rca.base.url=http://localhost:8080
 
 #gzoom2.base.url=http://localhost:4200
-gzoom2.base.url=http://localhost:663
+gzoom2.base.url=http://localhost:8080
 
 
 gzoom2.api.getToken.url=http://localhost:8081/rest/api/getToken
