@@ -11,8 +11,9 @@ onelogin.saml2.debug =  false
 #
 
 #  Identifier of the SP entity  (must be a URI)
-#  COLLAUDO: gzoom-saml-web è montata su OFBiz alla porta 8080
-onelogin.saml2.sp.entityid = http://172.20.145.105:8080/gzoom-saml-web/metadata.jsp
+#  COLLAUDO: Client ID registrato su Keycloak realm "aurora" per i test = "gzoomt"
+#  (in produzione sarà aggiornato con l'entityID definitivo)
+onelogin.saml2.sp.entityid = gzoomt
 
 # Specifies info about where and how the <AuthnResponse> message MUST be
 #  returned to the requester, in this case our SP.
