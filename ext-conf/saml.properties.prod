@@ -6,11 +6,10 @@ onelogin.saml2.strict = true
 onelogin.saml2.debug = false
 
 # Service Provider - Produzione
-# ⚠️ CONFIGURARE CON IL DOMINIO DI PRODUZIONE REALE
-onelogin.saml2.sp.entityid = https://<DOMINIO_PROD>/gzoom-saml-web/metadata.jsp
-onelogin.saml2.sp.assertion_consumer_service.url = https://<DOMINIO_PROD>/gzoom-saml-web/acs.jsp
+onelogin.saml2.sp.entityid = http://172.20.128.11:8080/gzoom-saml-web/metadata.jsp
+onelogin.saml2.sp.assertion_consumer_service.url = http://172.20.128.11:8080/gzoom-saml-web/acs.jsp
 onelogin.saml2.sp.assertion_consumer_service.binding = urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST
-onelogin.saml2.sp.single_logout_service.url = https://<DOMINIO_PROD>/gzoom-saml-web/sls.jsp
+onelogin.saml2.sp.single_logout_service.url = http://172.20.128.11:8080/gzoom-saml-web/sls.jsp
 onelogin.saml2.sp.single_logout_service.binding = urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect
 onelogin.saml2.sp.nameidformat = urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified
 onelogin.saml2.sp.x509cert =
