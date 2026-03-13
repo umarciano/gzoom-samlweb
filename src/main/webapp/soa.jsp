@@ -97,6 +97,10 @@ function loginOnSoa(user, fiscalCode, hrefUrl) {
 		 	
 		 	// URL di ritorno
 		    String returnUrl = (String) session.getAttribute("soaReturnUrl");
+		    // Fallback: se returnUrl è null (sessione persa tra request), usa la home di default
+		    if (returnUrl == null || returnUrl.trim().isEmpty() || "null".equals(returnUrl)) {
+		    	returnUrl = com.maps.saml.util.AuthWrapper.getProperties("gzoom").getProperty("gzoom.base.url") + "/control/main";
+		    }
 		    
 		    // Log per debug
 		    System.out.println("soa.jsp - matricola: " + matricola);
