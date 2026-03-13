@@ -95,11 +95,19 @@ function loginOnSoa(user, fiscalCode, hrefUrl) {
 		 		}
 		 	}
 		 	
-		 	// URL di ritorno
-		    String returnUrl = (String) session.getAttribute("soaReturnUrl");
-		    // Fallback: se returnUrl è null (sessione persa tra request), usa la home di default
+		 	// URL di ritorno: priorità al parametro request "ofbizUrl" (passato nel RelayState)
+		 	// che sopravvive alla perdita di sessione durante il redirect a Keycloak.
+		    String returnUrl = request.getParameter("ofbizUrl");
+		    System.out.println("soa.jsp - ofbizUrl da request param: " + returnUrl);
+		    // Fallback 1: sessione (per compatibilità con flussi che non passano da Keycloak)
 		    if (returnUrl == null || returnUrl.trim().isEmpty() || "null".equals(returnUrl)) {
-		    	returnUrl = com.maps.saml.util.AuthWrapper.getProperties("gzoom").getProperty("gzoom.base.url") + "/control/main";
+		    	returnUrl = (String) session.getAttribute("soaReturnUrl");
+		    	System.out.println("soa.jsp - ofbizUrl da session: " + returnUrl);
+		    }
+		    // Fallback 2: home OFBiz di default
+		    if (returnUrl == null || returnUrl.trim().isEmpty() || "null".equals(returnUrl)) {
+		    	returnUrl = com.maps.saml.util.AuthWrapper.getProperties("gzoom").getProperty("gzoom.base.url") + "/gzoom/control/samlLogin";
+		    	System.out.println("soa.jsp - ofbizUrl fallback default: " + returnUrl);
 		    }
 		    
 		    // Log per debug

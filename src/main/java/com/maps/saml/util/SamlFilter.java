@@ -148,27 +148,33 @@ public class SamlFilter implements Filter{
 		req.getSession().setAttribute(from +"ReturnUrl", baseUrl);
 		req.getSession().setAttribute("from", from);
 
-		// Configurazione per gzoom2 (API approach)
-		if ("gzoom2".equals(from)) {
-			String gzoom2ApiGetTokenUrl = AuthWrapper.getProperties("gzoom").getProperty("gzoom2.api.getToken.url");
-			String gzoom2ApiKey = AuthWrapper.getProperties("gzoom").getProperty("gzoom2.api.key");
-			req.getSession().setAttribute("gzoom2ApiGetTokenUrl",gzoom2ApiGetTokenUrl);
-			req.getSession().setAttribute("gzoom2ApiKey",gzoom2ApiKey);
-		}
 		// Configurazione per soa (OFBiz legacy) - redirect a /gzoom/control/samlLogin
-		else if ("soa".equals(from)) {
-			// Il returnUrl deve puntare al controller samlLogin di OFBiz
+		// L'URL OFBiz viene codificato nel RelayState come query parameter
+		// cosi' sopravvive alla perdita di sessione durante il redirect a Keycloak
+		String relayState;
+		if ("soa".equals(from)) {
 			String ofbizLoginUrl = AuthWrapper.getProperties("gzoom").getProperty("gzoom.base.url");
 			if (!ofbizLoginUrl.endsWith("/")) {
 				ofbizLoginUrl += "/";
 			}
 			ofbizLoginUrl += "gzoom/control/samlLogin";
 			req.getSession().setAttribute("soaReturnUrl", ofbizLoginUrl);
+			// Codifica l'URL OFBiz nel RelayState: /gzoom-saml-web/soa.jsp?ofbizUrl=<encoded>
+			String encodedOfbizUrl = java.net.URLEncoder.encode(ofbizLoginUrl, "UTF-8");
+			relayState = "/gzoom-saml-web/soa.jsp?ofbizUrl=" + encodedOfbizUrl;
+			LOGGER.info("RelayState costruito con ofbizUrl: " + relayState);
+		} else if ("gzoom2".equals(from)) {
+			String gzoom2ApiGetTokenUrl = AuthWrapper.getProperties("gzoom").getProperty("gzoom2.api.getToken.url");
+			String gzoom2ApiKey = AuthWrapper.getProperties("gzoom").getProperty("gzoom2.api.key");
+			req.getSession().setAttribute("gzoom2ApiGetTokenUrl",gzoom2ApiGetTokenUrl);
+			req.getSession().setAttribute("gzoom2ApiKey",gzoom2ApiKey);
+			relayState = "/gzoom-saml-web/" + from + ".jsp";
+		} else {
+			relayState = "/gzoom-saml-web/" + from + ".jsp";
 		}
 		
 		Auth auth = com.maps.saml.util.AuthWrapper.getAuth(req, resp);
-		//Auth auth = new Auth("saml.properties.gzoom",req, resp);
-		auth.login("/gzoom-saml-web/"+from+".jsp");
+		auth.login(relayState);
 	}
 
 	@Override
