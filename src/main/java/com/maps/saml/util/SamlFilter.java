@@ -40,7 +40,7 @@ public class SamlFilter implements Filter{
 			LOGGER.info("HTTP REQUEST - METHOD: "+   req.getMethod());
 		 	if (req.getServletPath()!=null) {
 				if (req.getServletPath().indexOf("gzoom2DoLogin")>0) {
-					manageSamlRequest(req, resp,"gzoom2.base.url", "gzoom2");
+					manageSamlRequest(req, resp,"gzoom.base.url", "soa");
 				}
 		 		else if(req.getServletPath().indexOf("gzoomDoLogin")>0) {
 					manageSamlRequest(req, resp,"gzoom.base.url", "soa");
