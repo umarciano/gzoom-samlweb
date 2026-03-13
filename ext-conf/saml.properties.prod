@@ -45,7 +45,7 @@ onelogin.saml2.security.reject_deprecated_alg = true
 # Organization
 onelogin.saml2.organization.name = AORN Cardarelli
 onelogin.saml2.organization.displayname = AORN Antonio Cardarelli
-onelogin.saml2.organization.url = https://<DOMINIO_PROD>
+onelogin.saml2.organization.url = http://172.20.128.11
 onelogin.saml2.organization.lang = it
 
 # Contacts
@@ -56,10 +56,9 @@ onelogin.saml2.contacts.support.email_address = supporto@ospedalecardarelli.it
 
 # ===========================================================================
 # PRODUZIONE - Application URLs
-# ⚠️ SOSTITUIRE <DOMINIO_PROD> con il dominio reale
 # ===========================================================================
-gzoom.base.url = https://<DOMINIO_PROD>
-rca.base.url = https://<DOMINIO_PROD>
-gzoom2.base.url = https://<DOMINIO_PROD>
-gzoom2.api.getToken.url = https://<DOMINIO_PROD>/rest/api/getToken
+gzoom.base.url = http://172.20.128.11:8080
+rca.base.url = http://172.20.128.11:8080
+gzoom2.base.url = http://172.20.128.11:4200
+gzoom2.api.getToken.url = http://172.20.128.11:8081/rest/api/getToken
 gzoom2.api.key = mUZEPHgeMzhhtyurkmWKDNmzf2jMYwo36QTAC6yw2ftdT2Scrm
