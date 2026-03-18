@@ -1,15 +1,15 @@
 #  GZOOM - SAML Properties - PRODUZIONE
-#  ⚠️ SOSTITUIRE <DOMINIO_PROD> con il dominio reale di produzione
-#  Esempio: https://gzoom.ospedalecardarelli.it
+#  Hostname: performance.ospedalecardarelli.it
+#  HTTPS terminato da Apache httpd (porta 443) con reverse proxy verso OFBiz (8080)
 
 onelogin.saml2.strict = true
 onelogin.saml2.debug = false
 
 # Service Provider - Produzione
-onelogin.saml2.sp.entityid = http://172.20.128.11:8080/gzoom-saml-web/metadata.jsp
-onelogin.saml2.sp.assertion_consumer_service.url = http://172.20.128.11:8080/gzoom-saml-web/acs.jsp
+onelogin.saml2.sp.entityid = https://performance.ospedalecardarelli.it/gzoom-saml-web/metadata.jsp
+onelogin.saml2.sp.assertion_consumer_service.url = https://performance.ospedalecardarelli.it/gzoom-saml-web/acs.jsp
 onelogin.saml2.sp.assertion_consumer_service.binding = urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST
-onelogin.saml2.sp.single_logout_service.url = http://172.20.128.11:8080/gzoom-saml-web/sls.jsp
+onelogin.saml2.sp.single_logout_service.url = https://performance.ospedalecardarelli.it/gzoom-saml-web/sls.jsp
 onelogin.saml2.sp.single_logout_service.binding = urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect
 onelogin.saml2.sp.nameidformat = urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified
 onelogin.saml2.sp.x509cert =
@@ -45,7 +45,7 @@ onelogin.saml2.security.reject_deprecated_alg = true
 # Organization
 onelogin.saml2.organization.name = AORN Cardarelli
 onelogin.saml2.organization.displayname = AORN Antonio Cardarelli
-onelogin.saml2.organization.url = http://172.20.128.11
+onelogin.saml2.organization.url = https://performance.ospedalecardarelli.it
 onelogin.saml2.organization.lang = it
 
 # Contacts
@@ -57,8 +57,8 @@ onelogin.saml2.contacts.support.email_address = supporto@ospedalecardarelli.it
 # ===========================================================================
 # PRODUZIONE - Application URLs
 # ===========================================================================
-gzoom.base.url = http://172.20.128.11:8080
-rca.base.url = http://172.20.128.11:8080
-gzoom2.base.url = http://172.20.128.11:4200
-gzoom2.api.getToken.url = http://172.20.128.11:8081/rest/api/getToken
+gzoom.base.url = https://performance.ospedalecardarelli.it
+rca.base.url = https://performance.ospedalecardarelli.it
+gzoom2.base.url = https://performance.ospedalecardarelli.it
+gzoom2.api.getToken.url = https://performance.ospedalecardarelli.it/rest/api/getToken
 gzoom2.api.key = mUZEPHgeMzhhtyurkmWKDNmzf2jMYwo36QTAC6yw2ftdT2Scrm
