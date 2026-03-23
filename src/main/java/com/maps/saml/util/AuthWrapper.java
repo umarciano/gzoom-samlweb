@@ -34,8 +34,15 @@ public class AuthWrapper   {
 			}
 			if (oneloginConf != null) {
 				String fullPath = oneloginConf + "." + which;
+				File fullFile = new File(fullPath);
+				if (!fullFile.exists()) {
+					// Fallback: usa il file senza suffisso (es. saml.properties.prod invece di saml.properties.prod.gzoom)
+					LOGGER.warn("[AuthWrapper] File non trovato: {}. Tentativo fallback senza suffisso: {}", fullPath, oneloginConf);
+					fullFile = new File(oneloginConf);
+					fullPath = oneloginConf;
+				}
 				LOGGER.info("[AuthWrapper] Lettura file: {}", fullPath);
-				FileInputStream propsf = new FileInputStream(fullPath);
+				FileInputStream propsf = new FileInputStream(fullFile);
 				if (propsf != null) {
 					p = new Properties();
 					p.load(propsf);
