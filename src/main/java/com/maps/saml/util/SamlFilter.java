@@ -136,14 +136,13 @@ public class SamlFilter implements Filter{
 			throws IOException, SettingsException, Error, URISyntaxException {
 		String returnUrl = req.getParameter("returnUrl");
 		LOGGER.info("HTTP REQUEST - return url: "+ returnUrl);
-		returnUrl = URLDecoder.decode( returnUrl, "UTF-8" );
-		LOGGER.info("HTTP REQUEST - return url decoded: "+ returnUrl);
 		String baseUrl = AuthWrapper.getProperties("gzoom").getProperty(propertyName);
-		if (returnUrl!=null) {
+		if (returnUrl != null) {
+			returnUrl = URLDecoder.decode(returnUrl, "UTF-8");
+			LOGGER.info("HTTP REQUEST - return url decoded: "+ returnUrl);
 			if (!returnUrl.startsWith("/"))
-				baseUrl=baseUrl+"/";
-			baseUrl=baseUrl+returnUrl;
-		    
+				baseUrl = baseUrl + "/";
+			baseUrl = baseUrl + returnUrl;
 		}
 		req.getSession().setAttribute(from +"ReturnUrl", baseUrl);
 		req.getSession().setAttribute("from", from);
