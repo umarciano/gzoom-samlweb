@@ -59,6 +59,6 @@ onelogin.saml2.contacts.support.email_address = supporto@ospedalecardarelli.it
 # ===========================================================================
 gzoom.base.url = https://performance.ospedalecardarelli.it
 rca.base.url = https://performance.ospedalecardarelli.it
-gzoom2.base.url = https://performance.ospedalecardarelli.it
+gzoom2.base.url = https://performance.ospedalecardarelli.it/gzoom2
 gzoom2.api.getToken.url = https://performance.ospedalecardarelli.it/rest/api/getToken
 gzoom2.api.key = mUZEPHgeMzhhtyurkmWKDNmzf2jMYwo36QTAC6yw2ftdT2Scrm

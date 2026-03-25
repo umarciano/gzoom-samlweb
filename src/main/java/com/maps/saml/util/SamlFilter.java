@@ -40,7 +40,7 @@ public class SamlFilter implements Filter{
 			LOGGER.info("HTTP REQUEST - METHOD: "+   req.getMethod());
 		 	if (req.getServletPath()!=null) {
 				if (req.getServletPath().indexOf("gzoom2DoLogin")>0) {
-					manageSamlRequest(req, resp,"gzoom.base.url", "soa");
+					manageSamlRequest(req, resp,"gzoom2.base.url", "gzoom2");
 				}
 		 		else if(req.getServletPath().indexOf("gzoomDoLogin")>0) {
 					manageSamlRequest(req, resp,"gzoom.base.url", "soa");
@@ -164,8 +164,10 @@ public class SamlFilter implements Filter{
 			relayState = "/gzoom-saml-web/soa.jsp?ofbizUrl=" + encodedOfbizUrl;
 			LOGGER.info("RelayState costruito con ofbizUrl: " + relayState);
 		} else if ("gzoom2".equals(from)) {
+			String gzoom2BaseUrl = AuthWrapper.getProperties("gzoom").getProperty("gzoom2.base.url");
 			String gzoom2ApiGetTokenUrl = AuthWrapper.getProperties("gzoom").getProperty("gzoom2.api.getToken.url");
 			String gzoom2ApiKey = AuthWrapper.getProperties("gzoom").getProperty("gzoom2.api.key");
+			req.getSession().setAttribute("gzoom2ReturnUrl", gzoom2BaseUrl);
 			req.getSession().setAttribute("gzoom2ApiGetTokenUrl",gzoom2ApiGetTokenUrl);
 			req.getSession().setAttribute("gzoom2ApiKey",gzoom2ApiKey);
 			relayState = "/gzoom-saml-web/" + from + ".jsp";

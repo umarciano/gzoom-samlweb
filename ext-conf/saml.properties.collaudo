@@ -156,7 +156,7 @@ gzoom.base.url=http://172.20.145.105:8080
 rca.base.url=http://172.20.145.105:8080
 
 # gzoom-saml-web è montata su OFBiz (porta 8080), non su Tomcat separato (663)
-gzoom2.base.url=http://172.20.145.105:8080
+gzoom2.base.url=http://172.20.145.105:4200/gzoom2
 
 gzoom2.api.getToken.url=http://172.20.145.105:8081/rest/api/getToken
 gzoom2.api.key=mUZEPHgeMzhhtyurkmWKDNmzf2jMYwo36QTAC6yw2ftdT2Scrm
