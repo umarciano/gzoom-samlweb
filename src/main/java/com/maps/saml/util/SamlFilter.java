@@ -113,7 +113,7 @@ public class SamlFilter implements Filter{
 					}
 					
 					LOGGER.info("GOT user matricola: " + matricola);
-					req.getSession().setAttribute("upn", matricola); 
+					req.getSession().setAttribute("upn", matricola);
 					LOGGER.info("GOT return url for RCA " + req.getSession().getAttribute("rcaReturnUrl"));
 					LOGGER.info("GOT return url for SOA " + req.getSession().getAttribute("soaReturnUrl"));
 					resp.sendRedirect(req.getParameter("RelayState"));
@@ -163,22 +163,18 @@ public class SamlFilter implements Filter{
 			relayState = "/gzoom-saml-web/soa.jsp?ofbizUrl=" + encodedOfbizUrl;
 			LOGGER.info("RelayState costruito con ofbizUrl: " + relayState);
 		} else if ("gzoom2".equals(from)) {
-			String gzoom2BaseUrl = AuthWrapper.getProperties("gzoom").getProperty("gzoom2.base.url");
-			String gzoom2ApiGetTokenUrl = AuthWrapper.getProperties("gzoom").getProperty("gzoom2.api.getToken.url");
-			String gzoom2ApiKey = AuthWrapper.getProperties("gzoom").getProperty("gzoom2.api.key");
-			req.getSession().setAttribute("gzoom2ReturnUrl", gzoom2BaseUrl);
-			req.getSession().setAttribute("gzoom2ApiGetTokenUrl", gzoom2ApiGetTokenUrl);
-			req.getSession().setAttribute("gzoom2ApiKey", gzoom2ApiKey);
-			// Codifica i parametri gzoom2 nel RelayState per sopravvivere alla perdita di sessione
-			// durante il redirect a Keycloak (stesso pattern usato per soa)
-			String encodedReturnUrl = java.net.URLEncoder.encode(gzoom2BaseUrl != null ? gzoom2BaseUrl : "", "UTF-8");
-			String encodedApiGetTokenUrl = java.net.URLEncoder.encode(gzoom2ApiGetTokenUrl != null ? gzoom2ApiGetTokenUrl : "", "UTF-8");
-			String encodedApiKey = java.net.URLEncoder.encode(gzoom2ApiKey != null ? gzoom2ApiKey : "", "UTF-8");
-			relayState = "/gzoom-saml-web/" + from + ".jsp"
-				+ "?returnUrl=" + encodedReturnUrl
-				+ "&apiGetTokenUrl=" + encodedApiGetTokenUrl
-				+ "&apiKey=" + encodedApiKey;
-			LOGGER.info("RelayState gzoom2 costruito: " + relayState);
+			// Usa lo stesso flusso di "soa": redirect a soa.jsp → OFBiz samlLogin
+			// OFBiz risolve la matricola tramite SamlUserMatcher e genera externalLoginKey
+			// poi redirige verso gzoom2 tramite il meccanismo già collaudato in collaudo
+			String ofbizLoginUrl = AuthWrapper.getProperties("gzoom").getProperty("gzoom.base.url");
+			if (!ofbizLoginUrl.endsWith("/")) {
+				ofbizLoginUrl += "/";
+			}
+			ofbizLoginUrl += "gzoom/control/samlLogin";
+			req.getSession().setAttribute("soaReturnUrl", ofbizLoginUrl);
+			String encodedOfbizUrl = java.net.URLEncoder.encode(ofbizLoginUrl, "UTF-8");
+			relayState = "/gzoom-saml-web/soa.jsp?ofbizUrl=" + encodedOfbizUrl;
+			LOGGER.info("RelayState gzoom2 (via soa/samlLogin): " + relayState);
 		} else {
 			relayState = "/gzoom-saml-web/" + from + ".jsp";
 		}
