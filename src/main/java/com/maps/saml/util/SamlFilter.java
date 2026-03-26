@@ -167,9 +167,18 @@ public class SamlFilter implements Filter{
 			String gzoom2ApiGetTokenUrl = AuthWrapper.getProperties("gzoom").getProperty("gzoom2.api.getToken.url");
 			String gzoom2ApiKey = AuthWrapper.getProperties("gzoom").getProperty("gzoom2.api.key");
 			req.getSession().setAttribute("gzoom2ReturnUrl", gzoom2BaseUrl);
-			req.getSession().setAttribute("gzoom2ApiGetTokenUrl",gzoom2ApiGetTokenUrl);
-			req.getSession().setAttribute("gzoom2ApiKey",gzoom2ApiKey);
-			relayState = "/gzoom-saml-web/" + from + ".jsp";
+			req.getSession().setAttribute("gzoom2ApiGetTokenUrl", gzoom2ApiGetTokenUrl);
+			req.getSession().setAttribute("gzoom2ApiKey", gzoom2ApiKey);
+			// Codifica i parametri gzoom2 nel RelayState per sopravvivere alla perdita di sessione
+			// durante il redirect a Keycloak (stesso pattern usato per soa)
+			String encodedReturnUrl = java.net.URLEncoder.encode(gzoom2BaseUrl != null ? gzoom2BaseUrl : "", "UTF-8");
+			String encodedApiGetTokenUrl = java.net.URLEncoder.encode(gzoom2ApiGetTokenUrl != null ? gzoom2ApiGetTokenUrl : "", "UTF-8");
+			String encodedApiKey = java.net.URLEncoder.encode(gzoom2ApiKey != null ? gzoom2ApiKey : "", "UTF-8");
+			relayState = "/gzoom-saml-web/" + from + ".jsp"
+				+ "?returnUrl=" + encodedReturnUrl
+				+ "&apiGetTokenUrl=" + encodedApiGetTokenUrl
+				+ "&apiKey=" + encodedApiKey;
+			LOGGER.info("RelayState gzoom2 costruito: " + relayState);
 		} else {
 			relayState = "/gzoom-saml-web/" + from + ".jsp";
 		}

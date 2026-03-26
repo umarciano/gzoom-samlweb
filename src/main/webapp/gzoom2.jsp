@@ -45,9 +45,20 @@
 	 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
      <%
 			String nameId = (String) session.getAttribute("upn");
-            String returnUrl = (String) session.getAttribute("gzoom2ReturnUrl");
-            String gzoom2ApiGetTokenUrl = (String) session.getAttribute("gzoom2ApiGetTokenUrl");
-		 	String gzoom2ApiKey = (String) session.getAttribute("gzoom2ApiKey");
+            // Legge i parametri dal RelayState (query string) per sopravvivere alla perdita di sessione
+            // durante il redirect a Keycloak. Fallback alla sessione per compatibilità.
+            String returnUrl = request.getParameter("returnUrl");
+            if (returnUrl == null || returnUrl.isEmpty()) {
+                returnUrl = (String) session.getAttribute("gzoom2ReturnUrl");
+            }
+            String gzoom2ApiGetTokenUrl = request.getParameter("apiGetTokenUrl");
+            if (gzoom2ApiGetTokenUrl == null || gzoom2ApiGetTokenUrl.isEmpty()) {
+                gzoom2ApiGetTokenUrl = (String) session.getAttribute("gzoom2ApiGetTokenUrl");
+            }
+            String gzoom2ApiKey = request.getParameter("apiKey");
+            if (gzoom2ApiKey == null || gzoom2ApiKey.isEmpty()) {
+                gzoom2ApiKey = (String) session.getAttribute("gzoom2ApiKey");
+            }
 	 %>
 </head>
 <body onload="loginOnGzoom2('<%=nameId%>', '<%=returnUrl%>', '<%=gzoom2ApiGetTokenUrl%>','<%=gzoom2ApiKey%>');"></body>
